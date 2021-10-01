@@ -3,61 +3,53 @@
 #include <iostream>
 #include "Liquid.h"
 
-liquid::liquid(const std::string name, double density) : name(name), density(density) {}
+liquid::liquid(const std::string name, const double density) : name(name), density(density) {}
 
 std::string liquid::get_name() const {
     return this->name;
 }
+
 double liquid::get_density() const {
     return this->density;
 }
-void set_name (const std::string name) const {
-    if (name != ""){
+
+void liquid::set_name (const std::string name) {
+    if (name == ""){
         throw;
     }
-    return this->name;
+    this->name = name;
 }
-void set_density (double density) const {
+void liquid::set_density (const double density) {
     if (density <= 0){
         throw;
     }
-    return this->density;
+    this->density = density;
 }
 
-void new_density (double AddDensity){
-    this->density = AddDensity;
-}
-void pos_density (double density, double positive) {
-    this->density += positive;
-}
-void neg_density (double density, double negative){
-    this->density -= negative;
-}
+alcohol::alcohol(const std::string name, const double density, const double strength) : liquid(name, density), strength(strength) {}
 
-liquid::alcohol(const std::string name, double density, double strength) : base(name, density, strength){}
-void set_strength (double strength) const {
+void alcohol::set_strength (const double strength) {
     if (strength <= 0){
         throw;
     }
-    return this->strength;
+    this->strength = strength;
 }
-double liquid::get_strength() const {
+
+double alcohol::get_strength() const {
     return this->strength;
 }
 
-void pos_strength (double strength, double positive2) {
-    this->strength += positive2;
-}
-void neg_strength (double strength, double negative2){
-    this->strength -= negative2;
-}
-
-std::string liquid::ToString() const
+std::string alcohol::to_string() const
 {
   std::stringstream buffer;
   buffer << "{" << this->name << ", ";
-  buffer << this->strength << ", ";
+  buffer << this->density << ", ";
   buffer << this->strength << "}";
 
   return buffer.str();
+}
+
+std::ostream& operator << (std::ostream& out, const alcohol& alcohol)
+{
+	return out << alcohol.to_string();
 }
